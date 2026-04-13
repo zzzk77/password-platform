@@ -1,0 +1,15 @@
+name: CTF入门密码题
+description: 测试凯撒密码、栅栏密码等古典密码的破解方法，适合CTF入门
+difficulty: 1
+port: 8081
+type: 古典密码加密
+challenges:
+  - name: 凯撒密码
+    description: 破解凯撒密码加密的文本，flag格式为flag{偏移量}
+    flag: flag{3}
+  - name: 栅栏密码
+    description: 破解栅栏密码加密的文本，flag格式为flag{栅栏数}
+    flag: flag{2}
+  - name: 简单替换密码
+    description: 破解简单替换密码加密的文本，flag格式为flag{替换规则}
+    flag: flag{QWE}

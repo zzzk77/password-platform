@@ -1,0 +1,30 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY attack ./attack
+COPY defense ./defense
+COPY shared ./shared
+COPY vite.attack.config.js vite.defense.config.js ./
+
+RUN npm run build:attack
+RUN npm run build:defense
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --production
+
+COPY --from=builder /app/dist/attack ./dist/attack
+COPY --from=builder /app/dist/defense ./dist/defense
+COPY vite.attack.config.js vite.defense.config.js ./
+
+
+EXPOSE 3001 3002
+
+CMD ["sh", "-c", "npm run preview:attack & npm run preview:defense"]

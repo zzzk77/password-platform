@@ -1,0 +1,68 @@
+name: DES弱密钥靶场
+description: 测试DES加密算法的弱密钥漏洞，模拟旧银行磁条卡的加密场景
+difficulty: 2
+port: 8084
+type: 对称加密
+challenges:
+  - name: DES弱密钥识别
+    description: |
+      DES算法存在4个弱密钥，使用这些密钥加密后再加密（二次加密）会得到原文。
+      已知某银行旧系统使用DES加密磁条卡数据，拦截到一段密文和使用的密钥。
+      请识别该密钥是否为弱密钥，并找出二次加密后的结果。
+      
+      密钥（十六进制）: 0101010101010101
+      明文: BANKSAFE
+      
+      提示：DES弱密钥的特点是 EK(EK(M)) = M，即加密两次等于没有加密。
+      flag格式为 flag{二次加密结果}
+    flag: flag{BANKSAFE}
+
+  - name: DES-ECB模式攻击
+    description: |
+      某旧版ATM系统使用DES-ECB模式加密交易数据。ECB模式的特性是相同的明文块总是产生相同的密文块。
+      你拦截到以下加密交易记录：
+      
+      密文块1（16进制）: 5B5B3E7A3E7A5B5B
+      密文块2（16进制）: 5B5B3E7A3E7A5B5B
+      密文块3（16进制）: 7A3E5B5B3E7A5B5B
+      
+      已知密钥为弱密钥: FEFEFEFEFEFEFEFE
+      且已知第一个块的明文为: ACCOUNT
+      
+      提示：ECB模式下相同明文块产生相同密文块，利用这个特性推断其他块的内容。
+      flag格式为 flag{第三个块的明文}
+    flag: flag{TRANSFER}
+
+  - name: DES密钥空间缩减
+    description: |
+      DES原始密钥为56位（64位中8位为校验位），但某些旧系统实现存在缺陷，
+      只使用了密钥中的部分有效位。
+      
+      某银行系统声称使用56位DES密钥，但实际上每个字节的最高有效位
+      都被忽略了（即每个字节只有7位有效）。
+      
+      请计算该系统实际的密钥空间大小（2的多少次方）。
+      
+      提示：64位密钥中每个字节8位，但1位是校验位。如果实现时又忽略了最高有效位，
+      每个字节只有6位有效。
+      flag格式为 flag{2的指数}
+    flag: flag{48}
+
+  - name: DES半弱密钥对
+    description: |
+      DES除了4个弱密钥外，还有6对半弱密钥（也叫半弱密钥对）。
+      半弱密钥对的特点是：用密钥A加密的结果，可以用密钥B来解密，反之亦然。
+      
+      已知以下半弱密钥对：
+      密钥对1: 01FE01FE01FE01FE 与 FE01FE01FE01FE01
+      密钥对2: 1FE01FE00EF10EF1 与 E01FE01FF10EF10E
+      密钥对3: 01E001E001F101F1 与 E001E001F101F101
+      密钥对4: 1FFE1FFE0EFE0EFE 与 FE1FFE1FFE0EFE0E
+      密钥对5: 011F011F010E010E 与 1F011F010E010E01
+      密钥对6: E0FEE0FEF1FEF1FE 与 FEE0FEE0FEF1FEF1
+      
+      用密钥 01FE01FE01FE01FE 加密明文 "MAGNETIC" 得到密文，
+      请用配对的半弱密钥解密验证。这个配对的半弱密钥最后两个字节是什么？
+      
+      flag格式为 flag{FE01FE01}
+    flag: flag{FE01FE01}

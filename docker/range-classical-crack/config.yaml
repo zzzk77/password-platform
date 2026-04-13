@@ -1,0 +1,31 @@
+name: 古典密码破解挑战
+description: 提供多种古典密码加密的密文，挑战破解能力，包括频率分析、已知明文攻击等方法
+difficulty: 3
+port: 8083
+type: 古典密码加密
+targets:
+  - id: 1
+    name: 凯撒密码破解
+    ciphertext: "L ORYH BRX, BRX DUH BRXQJ DQG EHDXWLIXO"
+    plaintext: "I LOVE YOU, YOU ARE YOUNG AND BEAUTIFUL"
+    flag: flag{3}
+    hint: flag格式为flag{偏移量}
+  - id: 2
+    name: 栅栏密码破解
+    ciphertext: "TETAH EPRSTO ARUCS"
+    plaintext: "THE PARTY STARTS AT NOON"
+    flag: flag{2}
+    hint: flag格式为flag{栅栏数}
+  - id: 3
+    name: 维吉尼亚密码破解
+    ciphertext: "LXVW QFKD YFOK DZKB"
+    plaintext: "MEET AT THE PARK AT NOON"
+    key: "SECRET"
+    flag: flag{SECRET}
+    hint: flag格式为flag{密钥}
+  - id: 4
+    name: 频率分析挑战
+    ciphertext: "XLI WTEPK VMWXIQ XLI GSRH RH YWTSJ XLI HMW"
+    plaintext: "THE QUICK BROWN FOX JUMPS OVER THE DOG"
+    flag: flag{frequency}
+    hint: flag格式为flag{方法}

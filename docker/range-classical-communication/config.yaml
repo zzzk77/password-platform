@@ -1,0 +1,15 @@
+name: 古典密码通信系统
+description: 模拟二战时期的密码通信系统，测试维吉尼亚密码、Playfair密码等古典密码的加密和解密
+difficulty: 2
+port: 8082
+type: 古典密码加密
+challenges:
+  - name: 维吉尼亚密码
+    description: 破解维吉尼亚密码加密的通信内容，flag格式为flag{密钥}
+    flag: flag{SECRET}
+  - name: Playfair密码
+    description: 破解Playfair密码加密的通信内容，flag格式为flag{密钥}
+    flag: flag{PLAYFAIR}
+  - name: 混合密码系统
+    description: 破解使用多种古典密码混合加密的通信内容，flag格式为flag{方法}
+    flag: flag{caesar+rail}
